@@ -6,6 +6,8 @@ router.get('/currenttopten', (req, res) => {
     res.send(500)
 })
 
-router.post('/postTopTen', (req, res) => {
-    
+router.post('/postLastTen', (req, res) => {
+    console.log('post route was hit')
 })
+
+module.exports = router;

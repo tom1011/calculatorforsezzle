@@ -1,4 +1,5 @@
 import { all } from 'redux-saga/effects';
+import postMathProblem from './postMathDB';
 
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
@@ -6,6 +7,6 @@ import { all } from 'redux-saga/effects';
 
 export default function* rootSaga() {
     yield all([
-        // this is where loginSaga() gose after i import them.
+        postMathProblem(), // this is the post route saga
     ]);
 }

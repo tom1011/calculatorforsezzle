@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Button from '../Button/button';
-
+import { connect } from 'react-redux';
 
 
 class App extends Component {
@@ -40,5 +40,8 @@ return (
 );
 }}
 
+const mapStateToProps = (reduxState) => {
+  return reduxState;
+}
 
-export default App;
+export default connect(mapStateToProps)(App);

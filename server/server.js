@@ -3,14 +3,14 @@ const app = express();
 const bodyParser = require('body-parser');
 
 // Route includes
-// const userRouter = require('./routes/user.router'); example route
+const topTenRouter = require('./routes/calculatorDB'); // this is the route to get a post the math problems
 
 // Body parser middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 /* Routes */
-// app.use('/api/user', userRouter); example router
+app.use('/mathProblems', topTenRouter);
 
 // Serve static files
 app.use(express.static('build'));
