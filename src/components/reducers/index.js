@@ -1,7 +1,10 @@
 import { combineReducers } from 'redux';
+import lastTen from './mathListTen';
+
+
 
 const rootReducer = combineReducers({
-// name of reducers here
+lastTen, // this reducer holds the last ten math problems 
 });
 
 export default rootReducer;

@@ -1,20 +1,11 @@
-import axios from 'axios';
-import { put, takeLatest } from 'redux-saga/effects';
-
-
-function* cardGetSaga() {
-  try {
-    const cardInfo = yield axios({
-        method: 'POST',
-        url: '/'
-      })
-      yield put({type: 'SET_CARD_ADMIN', payload: cardInfo.data})
-  } catch (error) {
-    console.log('User get request failed', error);
+const setLastTen = (state = [], action) => {
+  switch(action.type) {
+    case 'SET_LAST_TEN':
+      return action.payload
+    default: 
+    return state;
   }
 }
-function* userSaga() {
-  yield takeLatest('GET_ADMIN_VALUES', cardGetSaga);
-}
 
-export default userSaga;
+// this has the admin default card values.
+export default setLastTen;

@@ -21,21 +21,26 @@ class App extends Component {
       })
     }
     }
+
+    componentDidMount() {
+      this.props.dispatch({ type: 'GET_LAST_TEN'}); // will get the last ten problems on page load.
+    }
+  
   
 render() {
-  // all the options I will add to the caculator -- this is basic will add more late.
-  let numbers = [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ];
-  let mathoperation = ['+', '-', '/', '*', '='];
+  // all the options I will add to the caculator -- this is basic will add more late
+  const numbers = [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ];
+  const mathoperation = ['+', '-', '/', '*', '='];
 return (
   <div className="App">
     <header className="App-header">
       this is just setting up a quick and easy site to make a website caculator.
       <h1>{this.state.currentOutput}</h1>
       {/* map takes the options for caculator and makes a button for each one. */}
-      {numbers.map(items => <Button item= {items} setCurrentOutput = {this.setCurrentOutput}/>)}
-      {mathoperation.map(items => <Button item={items} setCurrentOutput = {this.setCurrentOutput}/>)}
-
-    </header>
+      {numbers.map(items => <Button key={items} item= {items} setCurrentOutput = {this.setCurrentOutput}/>)}
+      {mathoperation.map(items => <Button key={items} item={items} setCurrentOutput = {this.setCurrentOutput}/>)}
+      {this.props.lastTen.map(item => <p>{item.problem}</p>)}
+      </header>
   </div>
 );
 }}
