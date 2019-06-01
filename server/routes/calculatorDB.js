@@ -6,3 +6,6 @@ router.get('/currenttopten', (req, res) => {
     res.send(500)
 })
 
+router.post('/postTopTen', (req, res) => {
+    
+})
