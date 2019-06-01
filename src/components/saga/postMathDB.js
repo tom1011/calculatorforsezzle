@@ -5,7 +5,7 @@ import { put, takeLatest } from 'redux-saga/effects';
 function* postLastTen(action) {
   try {
     yield axios({
-        method: 'post',
+        method: 'POST',
         url: '/mathProblems/postLastTen',
         data: action.payload,
       })

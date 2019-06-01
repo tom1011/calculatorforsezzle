@@ -1,13 +1,15 @@
 const express = require('express');
 const app = express();
-const bodyParser = require('body-parser');
+
+// Body parser middleware -- not working for some reason it adds { : '' } around the req.body
+var bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 
 // Route includes
 const topTenRouter = require('./routes/calculatorDB'); // this is the route to get a post the math problems
-
-// Body parser middleware
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
 /* Routes */
 app.use('/mathProblems', topTenRouter);
