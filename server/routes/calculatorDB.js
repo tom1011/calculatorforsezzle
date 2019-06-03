@@ -5,6 +5,7 @@ const Math = require('mathjs');
 
 // gets the last ten math prolblems and takes to 
 router.get('/currentlastten', (req, res) => {
+    console.log('in get top ten')
     const queryText = 'SELECT * FROM "currentten" ORDER BY id DESC LIMIT 10;'
     pool.query(queryText)
         .then((result) => { res.send(result.rows); })
