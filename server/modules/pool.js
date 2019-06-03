@@ -1,5 +1,3 @@
-// this was copy paster direcly from a previous app I dont fully understande what is happening 
-// when it deploys to heroku.
 
 
 const pg = require('pg');
