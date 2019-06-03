@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-// var io = require('socket.io')();
+var io = require('socket.io')();
 const pool = require('./modules/pool')
 const Math = require('mathjs');
 
@@ -13,11 +13,13 @@ const server = express()
   .use((req, res) => res.sendFile(INDEX) )
   .listen(PORT, () => console.log(`Listening on ${ PORT }`));
   const io = socketIO(server);
+  io.listen(PORT);
+  console.log('listening on port ', PORT);
 
 
-const ioPORT = 8000; // might need to put this on a diffrent server
-io.listen(ioPORT);
-console.log('listening on port ', ioPORT);
+// const ioPORT = 8000; // might need to put this on a diffrent server
+// io.listen(PORT);
+//   console.log('listening on port ', PORT);
 
 io.on('connection', (socket) => {
   console.log('connected to io')
