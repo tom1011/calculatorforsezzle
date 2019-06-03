@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-var io = require('socket.io')();
+// var io = require('socket.io')();
 const pool = require('./modules/pool')
 const Math = require('mathjs');
 
@@ -8,6 +8,13 @@ const Math = require('mathjs');
 app.use(express.static('build'));
 
 /** Listen * */
+
+const server = express()
+  .use((req, res) => res.sendFile(INDEX) )
+  .listen(PORT, () => console.log(`Listening on ${ PORT }`));
+  const io = socketIO(server);
+
+
 const ioPORT = 8000; // might need to put this on a diffrent server
 io.listen(ioPORT);
 console.log('listening on port ', ioPORT);
@@ -33,7 +40,8 @@ io.on('connection', (socket) => {
         .then((result) => { io.sockets.emit('mathproblem', result.rows) })
       })
     }
-    // below is all sockets on the server
+
+    socket.on('disconnect', () => console.log('Client disconnected'));
 
   })
 })
