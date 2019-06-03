@@ -8,7 +8,7 @@ class Socket extends Component {
     super();
     this.state = {
       response: false,
-      endpoint: "/" // Change this to server end point. 
+      endpoint: "https://livesimplecalculator.herokuapp.com/" // Change this to server end point. 
     };
   }
 
