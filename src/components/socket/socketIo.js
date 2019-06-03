@@ -8,13 +8,13 @@ class Socket extends Component {
     super();
     this.state = {
       response: false,
-      endpoint: "/" // Change this to server end point. change this when deploy to heroku
+      endpoint: "/" // Change this to server end point. 
     };
   }
 
   componentDidMount() {
     const { endpoint } = this.state;
-    const socket = socketIOClient(endpoint);
+    const socket = socketIOClient();
     // this is the first call to the server to set up the socket
     socket.on("mathproblem", data => this.setState({ response: data }));
   }
