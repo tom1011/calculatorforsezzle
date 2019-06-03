@@ -20,11 +20,11 @@ class App extends Component {
       // callback function to socket
       // first variable is the name of the object we are sending ie the math problem
 
-      // io.connect('https://livesimplecalculator.herokuapp.com/').emit('mathproblem', 
-      //   // this is the object we are sending to the socket under the name of mathproblem
-      //   {
-      //     problem: this.state.currentOutput
-      //   })
+      io.connect('https://livesimplecalculator.herokuapp.com/').emit('mathproblem', 
+        // this is the object we are sending to the socket under the name of mathproblem
+        {
+          problem: this.state.currentOutput
+        })
 
 
       //clear input screen after sending to server via socket so that they can add more.
@@ -59,7 +59,7 @@ class App extends Component {
           {/* socket is the compont that has the websocket recever */}
           <div className="previousProblems">
           <p>Previous Problems:</p>
-          {/* <SocketTest /> */}
+          <SocketTest />
           </div>
         </header>
       </div>
