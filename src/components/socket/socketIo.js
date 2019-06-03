@@ -8,25 +8,27 @@ class Socket extends Component {
     super();
     this.state = {
       response: false,
-      endpoint: "http://127.0.0.1:8000" // local hose 8000 changed from tutorial
+      endpoint: "http://127.0.0.1:8000" // Change this to server end point. change this when deploy to heroku
     };
   }
 
   componentDidMount() {
     const { endpoint } = this.state;
     const socket = socketIOClient(endpoint);
+    // this is the first call to the server to set up the socket
     socket.on("mathproblem", data => this.setState({ response: data }));
-    console.log('in compont to see if this is logging it')
   }
+  
   render() {
     const { response } = this.state;
     return (
         <div style={{ textAlign: "center" }}>
           {response
-              ? <p>
+              ? <div>
+                  {/* mapping the 10 responses from the DB */}
                 {response.map(item => <p key={item.id}>{item.problem}</p>)}
-              </p>
-              : <p>Loading... ie socket did not work?</p>}
+              </div>
+              : <p>Loading... or socket failed wait 10 sec.</p>}
         </div>
     );
   }
