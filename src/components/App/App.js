@@ -14,18 +14,15 @@ class App extends Component {
 
   // this function is passed the value to add to the disply.
   setCurrentOutput = (str) => (event) => {
-    var socket = io();
     // will send to server to save to DB and update clients to display new one.
     if (str === '=') {
       // callback function to socket
       // first variable is the name of the object we are sending ie the math problem
-
       io.connect('https://livesimplecalculator.herokuapp.com/').emit('mathproblem', 
         // this is the object we are sending to the socket under the name of mathproblem
         {
           problem: this.state.currentOutput
         })
-
 
       //clear input screen after sending to server via socket so that they can add more.
       this.setState({

@@ -10,15 +10,14 @@ app.use(express.static('build'));
 /** Listen * */
 const PORT = process.env.PORT ||  5000;
 
-// const server = express()
-//   .use((req, res) => res.sendFile(INDEX) )
-//   .listen(PORT, () => console.log(`Listening on ${ PORT }`));
-
+const server = express()
+  .use((req, res) => res.sendFile(INDEX) )
+  .listen(PORT, () => console.log(`Listening on ${ PORT }`));
+  
 //  // might need to put this on a diffrent server
 
-
-io.listen(PORT);
-console.log('listening on port ', PORT);
+io.listen(server);
+  console.log('listening on port ', PORT);
 
 io.on('connection', (socket) => {
   console.log('connected to io')
