@@ -1,6 +1,8 @@
 const express = require('express'); 
 const app = express();
-var io = require('socket.io')();
+
+const server = require('http').Server(app)
+var io = require('socket.io')(server);
 const pool = require('./modules/pool')
 const Math = require('mathjs');
 
@@ -10,13 +12,13 @@ app.use(express.static('build'));
 /** Listen * */
 const PORT = process.env.PORT ||  5000;
 
-const server = express()
-  .use((req, res) => res.sendFile(INDEX) )
-  .listen(PORT, () => console.log(`Listening on ${ PORT }`));
+// const server = express()
+//   .use((req, res) => res.sendFile(INDEX) )
+//   .listen(PORT, () => console.log(`Listening on ${ PORT }`));
   
 //  // might need to put this on a diffrent server
 
-io.listen(server);
+server.listen(PORT);
   console.log('listening on port ', PORT);
 
 io.on('connection', (socket) => {

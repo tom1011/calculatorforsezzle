@@ -18,7 +18,7 @@ class App extends Component {
     if (str === '=') {
       // callback function to socket
       // first variable is the name of the object we are sending ie the math problem
-      io.connect('https://livesimplecalculator.herokuapp.com/').emit('mathproblem', 
+      io.connect('/').emit('mathproblem', 
         // this is the object we are sending to the socket under the name of mathproblem
         {
           problem: this.state.currentOutput
