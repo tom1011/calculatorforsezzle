@@ -3,7 +3,7 @@ app = express();
 // var socketIO = require('socket.io')();
 const pool = require('./modules/pool')
 const Math = require('mathjs');
-const socketIO = require('socket.io');
+const io = require('socket.io');
 const path = require('path');
 
 
@@ -11,6 +11,7 @@ port = process.env.PORT || 5000,
 server = app.listen(port, function () {
   console.log('Server running on port ' + port)
 }),
+
 socket = require('socket.io'),
 io = socket.listen(server)
 

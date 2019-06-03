@@ -10,7 +10,7 @@ if (process.env.DATABASE_URL) {
   // https://github.com/brianc/node-pg-pool
   const params = url.parse(process.env.DATABASE_URL);
   const auth = params.auth.split(':');
-
+  console.log('herokou check DB')
   config = {
     user: auth[0],
     password: auth[1],
