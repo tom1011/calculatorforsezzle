@@ -8,7 +8,7 @@ class Socket extends Component {
     super();
     this.state = {
       response: false,
-      endpoint: "172.16.65.154:34571" // Change this to server end point. change this when deploy to heroku
+      endpoint: "/" // Change this to server end point. change this when deploy to heroku
     };
   }
 
