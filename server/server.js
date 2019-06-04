@@ -1,15 +1,16 @@
 const express = require('express');
-// const app = express();
+const app = express();
+const server = require('http').Server(app)
 const pool = require('./modules/pool');
 const math = require('mathjs');
 // top no touch
-// app.use(express.static('build'));
 
-var app = require('http').createServer()
-var io = module.exports.io = require('socket.io')(app)
+var io = module.exports.io = require('socket.io')(server)
 
 const PORT = process.env.PORT || 8000; // might need to put this on a diffrent server
 // Serve static files
+
+app.use(express.static('build'));
 
 /** Listen * */
 
@@ -44,6 +45,6 @@ io.on('connection', socket => {
     });
 });
 
-app.listen(PORT, ()=>{
+server.listen(PORT, ()=>{
 	console.log("Connected to port:" + PORT);
 })

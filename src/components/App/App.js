@@ -7,6 +7,7 @@ import io from "socket.io-client";
 import SocketTest from "../socket/socketIo";
 
 class App extends Component {
+
   state = {
     currentOutput: '',
     lastTen: this.props.lastTen
@@ -18,7 +19,7 @@ class App extends Component {
     if (str === '=') {
       // callback function to socket
       // first variable is the name of the object we are sending ie the math problem
-      io.emit('mathproblem',
+      io('/').emit('mathproblem',
         // this is the object we are sending to the socket under the name of mathproblem
         {
           problem: this.state.currentOutput
