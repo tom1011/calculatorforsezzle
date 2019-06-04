@@ -5,7 +5,7 @@ const math = require('mathjs');
 // top no touch
 app.use(express.static('build'));
 
-let http =require("http");
+let http = require("http");
 const server = http.createServer(app);
 
 const sio = require("socket.io")(server, {
