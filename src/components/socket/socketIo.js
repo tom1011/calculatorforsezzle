@@ -8,7 +8,7 @@ class Socket extends Component {
     super();
     this.state = {
       response: false,
-      endpoint: "https://livesimplecalculator.herokuapp.com/" // Change this to server end point. change this when deploy to heroku
+      endpoint: "/" // Change this to server end point. change this when deploy to heroku
     };
   }
 
@@ -16,7 +16,8 @@ class Socket extends Component {
     const { endpoint } = this.state;
     const socket = socketIOClient(endpoint);
     // this is the first call to the server to set up the socket
-    socket.on("mathproblem", data => this.setState({ response: data }));
+    socket.on("mathproblem", data => 
+    this.setState({ response: data }));
   }
   
   render() {
