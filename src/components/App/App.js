@@ -5,6 +5,7 @@ import Button from '../Button/button';
 // testing app.
 import io from "socket.io-client";
 import SocketTest from "../socket/socketIo";
+import button from '../Button/button';
 
 class App extends Component {
   state = {
