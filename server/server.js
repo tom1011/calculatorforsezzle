@@ -11,7 +11,7 @@ const math = require('mathjs');
 
 //end nonsocket related
 
-const INDEX = path.join(__dirname, 'index.js');
+const INDEX = path.join(__dirname, 'index.html');
 var socketio= require('socket.io');
 
 const server = express()
