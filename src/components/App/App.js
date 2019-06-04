@@ -5,7 +5,6 @@ import Button from '../Button/button';
 // testing app.
 import io from "socket.io-client";
 import SocketTest from "../socket/socketIo";
-import button from '../Button/button';
 
 class App extends Component {
   state = {
@@ -19,11 +18,11 @@ class App extends Component {
     if (str === '=') {
       // callback function to socket
       // first variable is the name of the object we are sending ie the math problem
-      // io.emit('mathproblem',
-      //   // this is the object we are sending to the socket under the name of mathproblem
-      //   {
-      //     problem: this.state.currentOutput
-      //   })
+      io.emit('mathproblem',
+        // this is the object we are sending to the socket under the name of mathproblem
+        {
+          problem: this.state.currentOutput
+        })
       //clear input screen after sending to server via socket so that they can add more.
       this.setState({
         currentOutput: ''
