@@ -2,13 +2,14 @@ const express = require('express');
 const app = express();
 var io = require('socket.io')();
 const pool = require('./modules/pool')
-const Math = require('mathjs');
+const math = require('mathjs');
 
 // Serve static files
 app.use(express.static('build'));
 
 /** Listen * */
-const ioPORT = 8000; // might need to put this on a diffrent server
+
+const ioPORT = process.env.PORT || 8000; // might need to put this on a diffrent server
 io.listen(ioPORT);
 console.log('listening on port ', ioPORT);
 
@@ -21,7 +22,7 @@ io.on('connection', (socket) => {
   socket.on('mathproblem', (data) => {
     console.log('in the mathproblem.on section logging data', data)
     // make a DB update then query here duh idiot.
-    let answer = Math.eval((data.problem));
+    let answer = math.eval((data.problem));
     if (answer){ // minor validation so that only math problems with answers will be displyed.
       let mathProblem = data.problem + '=' + answer;
     const queryText = 'INSERT INTO "currentten" ("problem") VALUES ($1)';
