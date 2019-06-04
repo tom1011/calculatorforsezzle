@@ -14,7 +14,7 @@ class Socket extends Component {
 
   componentDidMount() {
     const { endpoint } = this.state;
-    const socket = io(endpoint);
+    const socket = io.connect(endpoint);// this is connecting to the socket from the server.
     // this is the first call to the server to set up the socket
     socket.on("mathproblem", data => 
     this.setState({ response: data }));

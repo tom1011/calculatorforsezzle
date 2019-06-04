@@ -1,13 +1,25 @@
-const express = require('express');
-const app = express();
-const server = require('http').Server(app)
+
+var express = require('express');
+var app = express();
+var PORT = process.env.PORT || 8000;
+const path = require('path');
+
+
+//non socket related
 const pool = require('./modules/pool');
 const math = require('mathjs');
-// top no touch
 
-var io = module.exports.io = require('socket.io')(server)
+//end nonsocket related
 
-const PORT = process.env.PORT || 8000; // might need to put this on a diffrent server
+const INDEX = path.join(__dirname, 'index.html');
+var socketio= require('socket.io');
+
+const server = express()
+  .use((req, res) => res.sendFile(INDEX) )
+  .listen(PORT, () => console.log(`Listening on ${ PORT }`));
+
+
+const io = socketio(server);
 // Serve static files
 
 app.use(express.static('build'));
@@ -44,7 +56,3 @@ io.on('connection', socket => {
         // below is all sockets on the server
     });
 });
-
-server.listen(PORT, ()=>{
-	console.log("Connected to port:" + PORT);
-})
