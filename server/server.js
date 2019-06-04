@@ -1,31 +1,19 @@
 const express = require('express');
-const app = express();
+// const app = express();
 const pool = require('./modules/pool');
 const math = require('mathjs');
 // top no touch
-app.use(express.static('build'));
+// app.use(express.static('build'));
 
-let http = require("http");
-const server = http.createServer(app);
-
-const sio = require("socket.io")(server, {
-    handlePreflightRequest: (req, res) => {
-        const headers = {
-            "Access-Control-Allow-Headers": "Content-Type, Authorization",
-            "Access-Control-Allow-Origin": req.headers.origin, //or the specific origin you want to give access to,
-            "Access-Control-Allow-Credentials": true
-        };
-        res.writeHead(200, headers);
-        res.end();
-    }
-});
+var app = require('http').createServer()
+var io = module.exports.io = require('socket.io')(app)
 
 const PORT = process.env.PORT || 8000; // might need to put this on a diffrent server
 // Serve static files
 
 /** Listen * */
 
-sio.on('connection', socket => {
+io.on('connection', socket => {
     console.log('connected to io');
     let firstget = 'SELECT * FROM "currentten" ORDER BY id DESC LIMIT 10;';
     pool.query(firstget).then(result => {
@@ -56,5 +44,6 @@ sio.on('connection', socket => {
     });
 });
 
-server.listen(PORT);
-console.log('listing on PORT', PORT)
+app.listen(PORT, ()=>{
+	console.log("Connected to port:" + PORT);
+})
