@@ -4,7 +4,6 @@ var app = express();
 var PORT = process.env.PORT || 8000;
 const path = require('path');
 
-
 //non socket related
 const pool = require('./modules/pool');
 const math = require('mathjs');

@@ -20,3 +20,48 @@
     box-shadow: 0 5px rgb(0, 0, 0);
     transform: translateY(4px);
   }
+
+  .item1 { grid-area: spot1; }
+  .item2 { grid-area: spot2; }
+  .item3 { grid-area: spot3; }
+  .item4 { grid-area: spot4; }
+  .item5 { grid-area: spot5; }
+  .item6 { grid-area: spot6; }
+  .item7 { grid-area: spot7; }
+  .item8 { grid-area: spot8; }
+  .item9 { grid-area: spot9; }
+  .item10 { grid-area: spot10; }
+  .item11 { grid-area: spot11; }
+  .item12 { grid-area: spot12; }
+  .item13 { grid-area: spot13; }
+  .item14 { grid-area: spot14; }
+  .item15 { grid-area: spot15; }
+  .item16 { grid-area: spot16; }
+  .item17 { grid-area: spot17; }
+  .item18 { grid-area: spot18; }
+  .item19 { grid-area: spot19; }
+  .item20 { grid-area: spot20; }
+  
+  .grid-container {
+    display: grid;
+    grid-template-areas:
+    "spot1 spot2 spot3 spot4"
+      'spot5 spot6 spot7 spot8'
+      'spot9 spot10 spot11 spot12'
+      'spot13 spot14 spot15 spot16'
+      'spot17 spot18 spot19 spot20';
+    grid-gap: 10px;
+    background-color: #2196F3;
+    padding: 10px;
+  }
+  
+  .grid-container > button {
+    background-color: #5c636e;
+    text-align: center;
+    width: calc(10px + 5vmin);
+    padding: 20px 0;
+    font-size: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }

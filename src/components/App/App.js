@@ -3,11 +3,14 @@ import './App.css';
 import Button from '../Button/button';
 
 // testing app.
-import io from "socket.io-client";
 import SocketTest from "../socket/socketIo";
 
-class App extends Component {
+const ROOT_URL = 'https://livesimplecalculator.herokuapp.com/';
+const io = require('socket.io-client/dist/socket.io');
+const socket = io.connect(ROOT_URL);
 
+class App extends Component {
+  
   state = {
     currentOutput: '',
     lastTen: this.props.lastTen
@@ -19,7 +22,7 @@ class App extends Component {
     if (str === '=') {
       // callback function to socket
       // first variable is the name of the object we are sending ie the math problem
-      io('').emit('mathproblem',
+      socket.emit('mathproblem',
         // this is the object we are sending to the socket under the name of mathproblem
         {
           problem: this.state.currentOutput
@@ -29,6 +32,12 @@ class App extends Component {
         currentOutput: ''
       })
     }
+    else if(str === 'AC'){
+			this.setState({
+				...this.state,
+				currentOutput: ''
+			})
+		}
     else {
       this.setState({
         ...this.state,
@@ -47,12 +56,14 @@ class App extends Component {
           This is a simple web calculator that shows the last 10 problems of all users.
       <p className="hiddenBox">{this.state.currentOutput}</p>
           {/* map takes the options for calculator and makes a button for each one. split in two for diffrent css */}
-          <div className="numberButtons">
+          {/* <div className="numberButtons">
           {numbers.map(items => <Button key={items} item={items} setCurrentOutput={this.setCurrentOutput} />)}
           </div>
           <div className="mathOperationButtons">
           {mathoperation.map(items => <Button key={items} item={items} setCurrentOutput={this.setCurrentOutput} />)}
-          </div>
+          </div> */}
+          {/* the button compont is hard coded to make css work */}
+          <Button setCurrentOutput={this.setCurrentOutput}/>
           {/* socket is the compont that has the websocket recever */}
           <div className="previousProblems">
           <p>Previous Problems:</p>

@@ -1,20 +1,21 @@
 
 import React, { Component } from "react";
-import io from "socket.io-client";
 
+const ROOT_URL = 'https://livesimplecalculator.herokuapp.com/';
+
+const io = require('socket.io-client/dist/socket.io');
+const socket = io.connect(ROOT_URL);
 
 class Socket extends Component {
   constructor() {
     super();
     this.state = {
       response: false,
-      endpoint: "" // Change this to server end point. change this when deploy to heroku
     };
   }
 
   componentDidMount() {
-    const { endpoint } = this.state;
-    const socket = io.connect(endpoint);// this is connecting to the socket from the server.
+    // this is connecting to the socket from the server.
     // this is the first call to the server to set up the socket
     socket.on("mathproblem", data => 
     this.setState({ response: data }));
