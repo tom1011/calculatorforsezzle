@@ -5,7 +5,7 @@ import io from 'socket.io-client';
 // testing app.
 import SocketTest from "../socket/socketIo";
 
-const ROOT_URL = 'wss://livesimplecalculator.herokuapp.com/';
+const ROOT_URL = 'ws://livesimplecalculator.herokuapp.com/';
 // const io = require('socket.io-client');
 // // const socket = io.connect(ROOT_URL);
 
@@ -24,7 +24,6 @@ class App extends Component {
             // first variable is the name of the object we are sending ie the math problem
 
             io.connect(ROOT_URL, {
-                secure: true,
                 transports: ['websocket'],
                 upgrade: false,
             }).emit('mathproblem',
