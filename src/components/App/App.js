@@ -23,7 +23,10 @@ class App extends Component {
       // callback function to socket
       // first variable is the name of the object we are sending ie the math problem
 
-      io.connect('/' , {secure: true}).emit('mathproblem',
+      io.connect('/' , {secure: true,
+        transports: ['websocket'],
+        upgrade: false,
+      } ).emit('mathproblem',
         // this is the object we are sending to the socket under the name of mathproblem
         {
           problem: this.state.currentOutput
