@@ -15,15 +15,14 @@ class Socket extends Component {
         this.state = {
             response: [],
         };
-        socket.on("mathproblem", data =>
-            this.setState({ response: data })
-        );
     }
 
     componentDidMount() {
         // this is connecting to the socket from the server.
         // this is the first call to the server to set up the socket
-
+        socket.on("mathproblem", data =>
+        this.setState({ response: data })
+    );
     }
     render() {
         const { response } = this.state;

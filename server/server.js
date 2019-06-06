@@ -6,7 +6,6 @@ var PORT = process.env.PORT || 8000;
 // var io = require('socket.io');
 
 //non socket related
-const pool = require('./modules/pool');
 const math = require('mathjs');
 //end nonsocket related
 
