@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import './App.css';
 import Button from '../Button/button';
-
+import io from 'socket.io-client';
 // testing app.
 import SocketTest from "../socket/socketIo";
 
-// const ROOT_URL = 'http//localhost:8000';
-// const io = require('socket.io-client/dist/socket.io');
-// const socket = io.connect(ROOT_URL);
+// // const ROOT_URL = 'http//localhost:8000';
+// const io = require('socket.io-client');
+// // const socket = io.connect(ROOT_URL);
 
 class App extends Component {
   
@@ -23,12 +23,12 @@ class App extends Component {
       // callback function to socket
       // first variable is the name of the object we are sending ie the math problem
 
-      // socket.emit('mathproblem',
-      //   // this is the object we are sending to the socket under the name of mathproblem
-      //   {
-      //     problem: this.state.currentOutput
-      //   })
-      
+      io.connect('').emit('mathproblem',
+        // this is the object we are sending to the socket under the name of mathproblem
+        {
+          problem: this.state.currentOutput
+        })
+
       //clear input screen after sending to server via socket so that they can add more.
       this.setState({
         currentOutput: ''

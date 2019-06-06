@@ -8,7 +8,7 @@ class button extends Component{
     <div className="grid-container">
     <button onClick={this.props.setCurrentOutput('(')} className="item1">(</button>
     <button onClick={this.props.setCurrentOutput(')')} className="item2">)</button>
-    <button onClick={this.props.setCurrentOutput('%')} className="item3">%</button>
+    <button onClick={this.props.setCurrentOutput('')} className="item3"></button>
     <button onClick={this.props.setCurrentOutput('AC')} className="item4">AC</button>
     <button  onClick={this.props.setCurrentOutput('7')} className="item5">7</button>
     <button onClick={this.props.setCurrentOutput('8')} className="item6">8</button>

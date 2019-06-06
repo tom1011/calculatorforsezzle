@@ -1,11 +1,10 @@
 import React, { Component } from "react";
+import io from 'socket.io-client';
 
 const ROOT_URL = ''; // defaults to base url. that should be right
 
-// git faluer to load with base https blank was just post right?
-
-const io = require('socket.io-client/dist/socket.io');
 const socket = io.connect(ROOT_URL);
+// const socket = io();
 
 class Socket extends Component {
   constructor() {
