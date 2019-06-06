@@ -10,11 +10,10 @@ These instructions will get you a copy of the project up and running on your loc
 ### Installing
 
 * Run npm install
-* start postgres if not running already by using brew serves start postgresql
-* run database.sql in postgressql.
-* go to 
-* go to App.js line 21 and change route to http://localhost:8000/ (you can use what every port you want)
-* do the same to socektio.js change route to http://localhost:8000/ (just keep the ports constant)
+* if running on localhost change "homepage" from current page to local host.
+* go to App.js line 10 and add route to http://localhost:8000/ (you can use what every port you want as long as you change it on the server side also)
+* do the same to socekt.js line 5, change route to http://localhost:8000/ (just keep the ports constant)
+* if you changed port go to server.js line 
 * Run npm run server
 * Run npm run client
 * navigate to localhost:3000
@@ -33,7 +32,6 @@ These instructions will get you a copy of the project up and running on your loc
 
 * react
 * node.js
-* SQL
 * socket.io
 * socket.io-client
 * mathjs
@@ -45,4 +43,4 @@ These instructions will get you a copy of the project up and running on your loc
 ## Acknowledgments
 
 * Hat tip to anyone whose code was used
-* The Net Ninja whos YouTube tutorial for socket.io helped a lot.
+* Big thanks to random stackover flow page that had a server side set up that worked.

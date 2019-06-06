@@ -1,58 +1,54 @@
-
-var express = require('express');
-var app = express();
-var PORT = process.env.PORT || 8000;
-const path = require('path');
-
-
-//non socket related
-const pool = require('./modules/pool');
+process.env.PWD = process.cwd();
+const http = require('http');
+const express = require('express');
+const app = express();
+const PORT = process.env.PORT || 8000;
 const math = require('mathjs');
+const path = require('path');
+const INDEX = path.join(process.env.PWD + '/build/index.html');
+const server = http.createServer(app);
 
-//end nonsocket related
-
-const INDEX = path.join(__dirname, 'index.html');
-var socketio= require('socket.io');
-
-const server = express()
-  .use((req, res) => res.sendFile(INDEX) )
-  .listen(PORT, () => console.log(`Listening on ${ PORT }`));
+// end imports / setting up http server
 
 
-const io = socketio(server);
-// Serve static files
+// got this from stack overflow -- a bit of this code froms one of the post there.
+app.use(express.static(path.join(process.env.PWD + '/build'), { maxAge: 86400000 }));
+app.get('/', (req, res) => res.sendFile(INDEX));
+// stack file set up and getting the path of the files there was talk about not using process.env.PWD since it
+// made the app more brital and valranable but since it works I'm not changging it
 
-app.use(express.static('build'));
 
-/** Listen * */
+server.listen(PORT, () => console.log(`Listening on ${PORT}`));
+const io = require('socket.io')(server);
 
-io.on('connection', socket => {
+let problems = [];
+let activeListeners = [];
+
+// actual socket that sends the current ten problems and keeps a reacord of them.
+io.sockets.on('connection', listener => {
     console.log('connected to io');
-    let firstget = 'SELECT * FROM "currentten" ORDER BY id DESC LIMIT 10;';
-    pool.query(firstget).then(result => {
-        io.sockets.emit('mathproblem', result.rows);
-    });
-    // socket.on looks for when a mathproblem is the name of the route is hit.
-    socket.on('mathproblem', data => {
+    activeListeners.push(listener);
+    listener.emit('mathproblem', problems);
+
+    // following updates real time when a change happens to 'mathproblem' route on web socket.
+    listener.on('mathproblem', data => {
         console.log('in the mathproblem.on section logging data', data);
-        // make a DB update then query here duh idiot.
         let answer = math.eval(data.problem);
-        if (answer) {
-            // minor validation so that only math problems with answers will be displyed.
-            let mathProblem = data.problem + '=' + answer;
-            const queryText = 'INSERT INTO "currentten" ("problem") VALUES ($1)';
-            pool
-                .query(queryText, [mathProblem]) // post of problem to DB ie saving between sestions
-                .then(() => {
-                    console.log('in get from DB now');
-                    let newqueryText = 'SELECT * FROM "currentten" ORDER BY id DESC LIMIT 10;';
-                    pool
-                        .query(newqueryText) // get the last ten math problems from DB
-                        .then(result => {
-                            io.sockets.emit('mathproblem', result.rows);
-                        });
-                });
+        if (typeof answer !== ('undefined' || 'null')) { // minor valadation to stop from beaking app.
+            let mathProblem = data.problem + ' = ' + answer;
+            problems.unshift(mathProblem);
+            if (problems.length > 10) problems.length = 10;
+            activeListeners.forEach(listener => listener.emit('mathproblem', problems));
+        } else {
+            let mathProblem = 'Error calculating the following input: ' + data.problem;
+            problems.unshift(mathProblem);
+            if (problems.length > 10) problems.length = 10;
+            activeListeners.forEach(listener => listener.emit('mathproblem', problems));
         }
-        // below is all sockets on the server
     });
+    // end update.
+
+    listener.on('disconnect', conn => {
+        activeListeners = activeListeners.filter(list => list.id !== conn.id);
+    })
 });
