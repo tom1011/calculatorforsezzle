@@ -8,18 +8,27 @@ var PORT = process.env.PORT || 8000;
 //non socket related
 const pool = require('./modules/pool');
 const math = require('mathjs');
-
 //end nonsocket related
 
-// start hosting server consts -- heroku dev set up
-const socketIO = require('socket.io');
+// // start hosting server consts -- heroku dev set up
+// const socketIO = require('socket.io');
+// const path = require('path');
+// const INDEX = path.join(__dirname, 'index.html');
+// const server = express()
+//   .use((req, res) => res.sendFile(INDEX) )
+//   .listen(PORT, () => console.log(`Listening on ${ PORT }`));
+// const io = socketIO(server);
+// end hosting server -- end heroku dev set up
+
+// ws basic
+const SocketServer = require('ws').Server;
 const path = require('path');
 const INDEX = path.join(__dirname, 'index.html');
 const server = express()
   .use((req, res) => res.sendFile(INDEX) )
   .listen(PORT, () => console.log(`Listening on ${ PORT }`));
-const io = socketIO(server);
-// end hosting server -- end heroku dev set up
+const wss = new SocketServer({ server });
+// ws basic end
 
 // Serve static files
 
@@ -27,7 +36,7 @@ app.use(express.static('build'));
 
 /** Listen * */
 
-io.on('connection', socket => {
+wss.on('connection', socket => {
     console.log('connected to io');
     let firstget = 'SELECT * FROM "currentten" ORDER BY id DESC LIMIT 10;';
     pool.query(firstget).then(result => {
