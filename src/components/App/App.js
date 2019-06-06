@@ -5,15 +5,21 @@ import io from 'socket.io-client';
 // testing app.
 import SocketTest from "../socket/socketIo";
 
-const ROOT_URL = 'ws://livesimplecalculator.herokuapp.com/';
-// const io = require('socket.io-client');
-// // const socket = io.connect(ROOT_URL);
+const socket = io.connect({
+    secure: false,
+    transports: ['websocket'],
+    upgrade: false,
+})
 
 class App extends Component {
 
     state = {
         currentOutput: '',
         lastTen: this.props.lastTen
+    }
+
+    componentDidMount = () => {
+
     }
 
     // this function is passed the value to add to the disply.
@@ -23,11 +29,7 @@ class App extends Component {
             // callback function to socket
             // first variable is the name of the object we are sending ie the math problem
 
-            io.connect(ROOT_URL, {
-              secure: false,
-                transports: ['websocket'],
-                upgrade: false,
-            }).emit('mathproblem',
+            socket.emit('mathproblem',
                 // this is the object we are sending to the socket under the name of mathproblem
                 {
                     problem: this.state.currentOutput
