@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import io from 'socket.io-client';
 
-const ROOT_URL = ''; // defaults to base url. that should be right
+const ROOT_URL = 'https://livesimplecalculator.herokuapp.com/'; // defaults to base url. that should be right
 
 const socket = io.connect(ROOT_URL , {secure: true,
   transports: ['websocket'],
