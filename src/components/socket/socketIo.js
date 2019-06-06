@@ -5,7 +5,9 @@ const ROOT_URL = 'https://livesimplecalculator.herokuapp.com/'; // defaults to b
 
 const socket = io.connect(ROOT_URL , {secure: true,
   transports: ['websocket'],
-  upgrade: false,});
+  upgrade: false,
+path: 'https://livesimplecalculator.herokuapp.com//socket.io/?EIO=3&transport=websocket'
+});
 // const socket = io();
 
 class Socket extends Component {

@@ -26,6 +26,7 @@ class App extends Component {
       io.connect('https://livesimplecalculator.herokuapp.com/' , {secure: true,
         transports: ['websocket'],
         upgrade: false,
+        path: 'https://livesimplecalculator.herokuapp.com//socket.io/?EIO=3&transport=websocket',
       } ).emit('mathproblem',
         // this is the object we are sending to the socket under the name of mathproblem
         {
