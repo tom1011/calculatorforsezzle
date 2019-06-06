@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 
-const ROOT_URL = 'https://livesimplecalculator.herokuapp.com/'; // defaults to base url. that should be right
+const ROOT_URL = ''; // defaults to base url. that should be right
+
+// git faluer to load with base https blank was just post right?
 
 const io = require('socket.io-client/dist/socket.io');
 const socket = io.connect(ROOT_URL);
