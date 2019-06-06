@@ -6,6 +6,7 @@ class button extends Component{
 
   return (
     <div className="grid-container">
+    {/* hard coded since map of className="item{number}" did not work for css*/}
     <button onClick={this.props.setCurrentOutput('(')} className="item1">(</button>
     <button onClick={this.props.setCurrentOutput(')')} className="item2">)</button>
     <button onClick={this.props.setCurrentOutput('')} className="item3"></button>

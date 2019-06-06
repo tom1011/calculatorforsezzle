@@ -11,59 +11,50 @@ const math = require('mathjs');
 //end nonsocket related
 
 // // start hosting server consts -- heroku dev set up
-// const socketIO = require('socket.io');
-// const path = require('path');
-// const INDEX = path.join(__dirname, 'index.html');
-// const server = express()
-//   .use((req, res) => res.sendFile(INDEX) )
-//   .listen(PORT, () => console.log(`Listening on ${ PORT }`));
-// const io = socketIO(server);
-// end hosting server -- end heroku dev set up
 
-// ws basic
-const SocketServer = require('ws').Server;
+const socketIO = require('socket.io');
 const path = require('path');
 const INDEX = path.join(__dirname, 'index.html');
 const server = express()
   .use((req, res) => res.sendFile(INDEX) )
   .listen(PORT, () => console.log(`Listening on ${ PORT }`));
+const io = socketIO(server);
 
-const wss = new SocketServer({ server });
-// ws basic end
+// end hosting server -- end heroku dev set up
 
 // Serve static files
 
 app.use(express.static('build'));
 
 /** Listen * */
+let problems = [];
+let activeListeners = [];
 
-wss.on('connection', socket => {
+/** Listen * */
+
+
+// this is DBless and only stores the list here on the server. this was done
+// due to the rules google had on using SQLDB so to get around those limits we just save it on the server.
+
+io.on('connection', listener => {
     console.log('connected to io');
-    let firstget = 'SELECT * FROM "currentten" ORDER BY id DESC LIMIT 10;';
-    pool.query(firstget).then(result => {
-        io.sockets.emit('mathproblem', result.rows);
-    });
-    // socket.on looks for when a mathproblem is the name of the route is hit.
-    socket.on('mathproblem', data => {
+    activeListeners.push(listener);
+    listener.emit('mathproblem', problems);
+
+    listener.on('mathproblem', data => {
         console.log('in the mathproblem.on section logging data', data);
-        // make a DB update then query here duh idiot.
         let answer = math.eval(data.problem);
         if (answer) {
             // minor validation so that only math problems with answers will be displyed.
-            let mathProblem = data.problem + '=' + answer;
-            const queryText = 'INSERT INTO "currentten" ("problem") VALUES ($1)';
-            pool
-                .query(queryText, [mathProblem]) // post of problem to DB ie saving between sestions
-                .then(() => {
-                    console.log('in get from DB now');
-                    let newqueryText = 'SELECT * FROM "currentten" ORDER BY id DESC LIMIT 10;';
-                    pool
-                        .query(newqueryText) // get the last ten math problems from DB
-                        .then(result => {
-                            io.sockets.emit('mathproblem', result.rows);
-                        });
-                });
+            let mathProblem = data.problem + ' = ' + answer;
+            problems.unshift(mathProblem);
+            if (problems.length > 10) problems.length = 10;
+            activeListeners.forEach(listener => listener.emit('mathproblem', problems));
         }
         // below is all sockets on the server
     });
+
+    listener.on('disconnect', conn => {
+        activeListeners = activeListeners.filter(list => list.id !== conn.id);
+    })
 });
