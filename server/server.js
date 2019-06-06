@@ -2,7 +2,8 @@
 var express = require('express');
 var app = express();
 var PORT = process.env.PORT || 8000;
-const path = require('path');
+
+// var io = require('socket.io');
 
 //non socket related
 const pool = require('./modules/pool');
@@ -10,15 +11,16 @@ const math = require('mathjs');
 
 //end nonsocket related
 
+// start hosting server consts -- heroku dev set up
+const socketIO = require('socket.io');
+const path = require('path');
 const INDEX = path.join(__dirname, 'index.html');
-var socketio= require('socket.io');
-
 const server = express()
   .use((req, res) => res.sendFile(INDEX) )
   .listen(PORT, () => console.log(`Listening on ${ PORT }`));
+const io = socketIO(server);
+// end hosting server -- end heroku dev set up
 
-
-const io = socketio(server);
 // Serve static files
 
 app.use(express.static('build'));

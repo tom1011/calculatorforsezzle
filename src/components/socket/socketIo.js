@@ -1,7 +1,6 @@
-
 import React, { Component } from "react";
 
-const ROOT_URL = 'https://livesimplecalculator.herokuapp.com/';
+const ROOT_URL = ''; // defaults to base url. that should be right
 
 const io = require('socket.io-client/dist/socket.io');
 const socket = io.connect(ROOT_URL);
@@ -18,9 +17,9 @@ class Socket extends Component {
     // this is connecting to the socket from the server.
     // this is the first call to the server to set up the socket
     socket.on("mathproblem", data => 
-    this.setState({ response: data }));
+    this.setState({ response: data })
+    );
   }
-  
   render() {
     const { response } = this.state;
     return (
