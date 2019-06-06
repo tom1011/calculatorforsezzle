@@ -24,6 +24,7 @@ class App extends Component {
             // first variable is the name of the object we are sending ie the math problem
 
             io.connect(ROOT_URL, {
+              secure: false,
                 transports: ['websocket'],
                 upgrade: false,
             }).emit('mathproblem',

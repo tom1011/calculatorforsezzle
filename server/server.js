@@ -1,43 +1,26 @@
 process.env.PWD = process.cwd();
-
-var express = require('express');
-var app = express();
-var PORT = process.env.PORT || 8000;
-
-// var io = require('socket.io');
-
-//non socket related
+const http = require('http');
+const express = require('express');
+const app = express();
+const PORT = process.env.PORT || 8000;
 const math = require('mathjs');
-//end nonsocket related
-
-// // start hosting server consts -- heroku dev set up
-
-const socketIO = require('socket.io');
 const path = require('path');
-// const INDEX = path.join(__dirname, 'index.html');
-const INDEX = path.join(process.env.PWD + '/build/public/index.html');
-const server = express()
-  .use((req, res) => res.sendFile(INDEX) )
-  .listen(PORT, () => console.log(`Listening on ${ PORT }`));
-const io = socketIO(server);
+const INDEX = path.join(process.env.PWD + '/build/index.html');
+const server = http.createServer(app);
 
-// end hosting server -- end heroku dev set up
+// end imports
 
-// Serve static files
 
-app.use(express.static('/app/build/public/index.html'));
 
-/** Listen * */
+app.use(express.static(path.join(process.env.PWD + '/build'), { maxAge: 86400000 }));
+app.get('/', (req, res) => res.sendFile(INDEX));
+server.listen(PORT, () => console.log(`Listening on ${PORT}`));
+const io = require('socket.io')(server);
+
 let problems = [];
 let activeListeners = [];
 
-/** Listen * */
-
-
-// this is DBless and only stores the list here on the server. this was done
-// due to the rules google had on using SQLDB so to get around those limits we just save it on the server.
-
-io.on('connection', listener => {
+io.sockets.on('connection', listener => {
     console.log('connected to io');
     activeListeners.push(listener);
     listener.emit('mathproblem', problems);
@@ -45,14 +28,17 @@ io.on('connection', listener => {
     listener.on('mathproblem', data => {
         console.log('in the mathproblem.on section logging data', data);
         let answer = math.eval(data.problem);
-        if (answer) {
-            // minor validation so that only math problems with answers will be displyed.
+        if (typeof answer !== ('undefined' || 'null')) {
             let mathProblem = data.problem + ' = ' + answer;
             problems.unshift(mathProblem);
             if (problems.length > 10) problems.length = 10;
             activeListeners.forEach(listener => listener.emit('mathproblem', problems));
+        } else {
+            let mathProblem = 'Error calculating the following input: ' + data.problem;
+            problems.unshift(mathProblem);
+            if (problems.length > 10) problems.length = 10;
+            activeListeners.forEach(listener => listener.emit('mathproblem', problems));
         }
-        // below is all sockets on the server
     });
 
     listener.on('disconnect', conn => {
