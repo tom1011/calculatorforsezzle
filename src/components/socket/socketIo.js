@@ -3,10 +3,9 @@ import io from 'socket.io-client';
 
 const ROOT_URL = 'https://livesimplecalculator.herokuapp.com/'; // defaults to base url. that should be right
 
-const socket = io.connect(ROOT_URL , {secure: true,
+const socket = io.connect({secure: true,
   transports: ['websocket'],
   upgrade: false,
-path: 'https://livesimplecalculator.herokuapp.com//socket.io/?EIO=3&transport=websocket'
 });
 // const socket = io();
 
