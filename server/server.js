@@ -1,3 +1,4 @@
+process.env.PWD = process.cwd();
 
 var express = require('express');
 var app = express();
@@ -13,7 +14,8 @@ const math = require('mathjs');
 
 const socketIO = require('socket.io');
 const path = require('path');
-const INDEX = path.join(__dirname, 'index.html');
+// const INDEX = path.join(__dirname, 'index.html');
+const INDEX = path.join(process.env.PWD + '/build/public/index.html');
 const server = express()
   .use((req, res) => res.sendFile(INDEX) )
   .listen(PORT, () => console.log(`Listening on ${ PORT }`));
@@ -23,7 +25,7 @@ const io = socketIO(server);
 
 // Serve static files
 
-app.use(express.static('build/public/index.html'));
+// app.use(express.static('build/public/index.html'));
 
 /** Listen * */
 let problems = [];
