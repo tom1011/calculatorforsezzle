@@ -23,7 +23,7 @@ const io = socketIO(server);
 
 // Serve static files
 
-app.use(express.static('build'));
+app.use(express.static('build/public/index.html'));
 
 /** Listen * */
 let problems = [];
